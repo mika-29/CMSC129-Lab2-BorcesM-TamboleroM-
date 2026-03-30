@@ -15,7 +15,7 @@
 
             <div class="card-body">
 
-                <form action="{{ route('inventory.update', $item) }}" method="POST">
+                <form action="{{ route('inventory.update', $inventory) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -25,20 +25,9 @@
                         <input type="text"
                                name="name"
                                class="form-control @error('name') is-invalid @enderror"
-                               value="{{ old('name', $item->name) }}"
+                               value="{{ old('name', $inventory->name) }}"
                                required>
                         @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- DESCRIPTION -->
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description"
-                                  class="form-control @error('description') is-invalid @enderror"
-                                  rows="3">{{ old('description', $item->description) }}</textarea>
-                        @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -50,7 +39,7 @@
                             <input type="number"
                                    name="quantity"
                                    class="form-control @error('quantity') is-invalid @enderror"
-                                   value="{{ old('quantity', $item->quantity) }}"
+                                   value="{{ old('quantity', $inventory->quantity) }}"
                                    min="0"
                                    required>
                             @error('quantity')
@@ -63,7 +52,7 @@
                             <input type="number"
                                    name="minimum_stock"
                                    class="form-control @error('minimum_stock') is-invalid @enderror"
-                                   value="{{ old('minimum_stock', $item->minimum_stock) }}"
+                                   value="{{ old('minimum_stock', $inventory->minimum_stock) }}"
                                    min="0"
                                    required>
                             @error('minimum_stock')
@@ -78,15 +67,15 @@
                         <input type="date"
                                name="expiration_date"
                                class="form-control @error('expiration_date') is-invalid @enderror"
-                               value="{{ old('expiration_date', $item->expiration_date) }}">
+                               value="{{ old('expiration_date', $inventory->expiration_date) }}">
                         @error('expiration_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
 
                         <!-- Dynamic Status Preview -->
-                        @if($item->expiry_status == 'expired')
+                        @if($inventory->expiry_status == 'expired')
                             <small class="text-danger">⚠️ This item is already expired</small>
-                        @elseif($item->expiry_status == 'warning')
+                        @elseif($inventory->expiry_status == 'warning')
                             <small class="text-warning">⚠️ This item is near expiry</small>
                         @endif
                     </div>
@@ -96,14 +85,14 @@
                         <label class="form-label">Category</label>
                         <select name="category" class="form-select">
                             <option value="">Select Category</option>
-                            <option value="Food" {{ old('category', $item->category) == 'Food' ? 'selected' : '' }}>Food</option>
-                            <option value="Medicine" {{ old('category', $item->category) == 'Medicine' ? 'selected' : '' }}>Medicine</option>
-                            <option value="Equipment" {{ old('category', $item->category) == 'Equipment' ? 'selected' : '' }}>Equipment</option>
+                            <option value="Food" {{ old('category', $inventory->category) == 'Food' ? 'selected' : '' }}>Food</option>
+                            <option value="Medicine" {{ old('category', $inventory->category) == 'Medicine' ? 'selected' : '' }}>Medicine</option>
+                            <option value="Equipment" {{ old('category', $inventory->category) == 'Equipment' ? 'selected' : '' }}>Equipment</option>
                         </select>
                     </div>
 
                     <!-- ALERT IF LOW STOCK -->
-                    @if($item->is_low_stock)
+                    @if($inventory->is_low_stock)
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-triangle"></i>
                             This item is currently LOW STOCK!

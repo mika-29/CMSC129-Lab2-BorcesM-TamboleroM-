@@ -30,17 +30,6 @@
                         @enderror
                     </div>
 
-                    <!-- DESCRIPTION -->
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description"
-                                  class="form-control @error('description') is-invalid @enderror"
-                                  rows="3">{{ old('description') }}</textarea>
-                        @error('description')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
                     <!-- QUANTITY + MIN STOCK -->
                     <div class="row">
                         <div class="col-md-6 mb-3">
