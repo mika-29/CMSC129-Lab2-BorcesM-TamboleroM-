@@ -7,7 +7,7 @@
     <div class="col-md-8">
 
         <div class="card">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white" style="background-color: #e8620a;">
                 <h4 class="mb-0">
                     <i class="fas fa-edit"></i> Edit Emergency Supply
                 </h4>
@@ -105,7 +105,7 @@
                             <i class="fas fa-arrow-left"></i> Cancel
                         </a>
 
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-orange">
                             <i class="fas fa-save"></i> Update Supply
                         </button>
                     </div>

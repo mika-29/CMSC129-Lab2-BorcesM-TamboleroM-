@@ -94,10 +94,7 @@
 
                 @else
 
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        Trash is empty. No deleted supplies found.
-                    </div>
+                <p class="text-muted fst-italic">Trash is empty. No deleted supplies found.</p>
 
                 @endif
 

@@ -7,7 +7,7 @@
     <div class="col-md-8">
 
         <div class="card">
-            <div class="card-header bg-primary-blue text-white">
+            <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">
                     <i class="fas fa-plus-circle"></i> Add Emergency Supply
                 </h4>

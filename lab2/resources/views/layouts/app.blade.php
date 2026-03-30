@@ -72,8 +72,18 @@
         background: #1f2937;
         border: 1px solid #374151;
     }
-    </style>
 
+    .btn-orange {
+    background-color: #e8620a;
+    color: white;
+    transition: background-color 0.2s ease;
+
+    }
+    .btn-orange:hover {
+        background-color: #c9530a;
+        color: white;
+    }
+    </style>
     @stack('styles')
   </head>
 
