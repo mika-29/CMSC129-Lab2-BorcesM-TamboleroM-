@@ -70,18 +70,17 @@
 
                                         <!-- DELETE FOREVER -->
                                         <form action="{{ route('inventory.forceDelete', $item->id) }}"
-                                              method="POST"
-                                              style="display:inline;"
-                                              onsubmit="return confirm('Permanently delete this supply? This cannot be undone!');">
+                                            method="POST"
+                                            style="display:inline;"
+                                            class="force-delete-form">
                                             @csrf
                                             @method('DELETE')
 
-                                            <button class="btn btn-sm btn-danger">
+                                            <button type="button" class="btn btn-sm btn-danger open-delete-modal">
                                                 <i class="fas fa-times"></i> Delete Forever
                                             </button>
                                         </form>
                                     </td>
-
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -114,4 +113,53 @@
 
     </div>
 </div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">
+                    <i class="fas fa-triangle-exclamation text-danger"></i>
+                    Confirm Permanent Delete
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Permanently delete this supply? This cannot be undone.
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    Delete Forever
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let selectedForm = null;
+
+    const deleteModalEl = document.getElementById('confirmDeleteModal');
+    const deleteModal = new bootstrap.Modal(deleteModalEl);
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    document.querySelectorAll('.open-delete-modal').forEach(button => {
+        button.addEventListener('click', function () {
+            selectedForm = this.closest('.force-delete-form');
+            deleteModal.show();
+        });
+    });
+
+    confirmDeleteBtn.addEventListener('click', function () {
+        if (selectedForm) {
+            selectedForm.submit();
+        }
+    });
+});
+</script>
 @endsection

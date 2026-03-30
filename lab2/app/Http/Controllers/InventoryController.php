@@ -7,12 +7,47 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    public function index()
+   public function index(Request $request)
     {
-        $items = Inventory::latest()->paginate(10);
+        $query = Inventory::query();
 
+        // Search across multiple fields
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'ILIKE', "%{$search}%")
+                ->orWhere('category', 'ILIKE', "%{$search}%")
+                ->orWhere('description', 'ILIKE', "%{$search}%");
+            });
+        }
+
+        // Filter 1: by status
+        if ($request->filled('status')) {
+        if ($request->status === 'out_stock') {
+            $query->where('quantity', '<=', 0);
+        } elseif ($request->status === 'low_stock') {
+            $query->where('quantity', '>', 0)
+                  ->whereColumn('quantity', '<=', 'minimum_stock');
+        } elseif ($request->status === 'in_stock') {
+            $query->whereColumn('quantity', '>', 'minimum_stock');
+        }
+    }
+
+        // Filter 2: category
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        $items = $query->latest()->paginate(10)->withQueryString();
         $criticalCount = Inventory::whereColumn('quantity', '<=', 'minimum_stock')->count();
-        return view('inventory.index', compact('items', 'criticalCount'));
+
+        $categories = Inventory::select('category')
+                    ->distinct()
+                    ->whereNotNull('category')
+                    ->orderBy('category')
+                    ->pluck('category');
+
+        return view('inventory.index', compact('items', 'criticalCount', 'categories'));
     }
 
     public function create()

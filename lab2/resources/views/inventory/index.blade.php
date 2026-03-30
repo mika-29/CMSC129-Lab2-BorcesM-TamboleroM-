@@ -44,6 +44,77 @@
         </li>
     </ul>
 
+    {{-- ===================== SEARCH & FILTER FORM ===================== --}}
+    <form method="GET" action="{{ route('inventory.index') }}" class="mb-3">
+        <div class="row g-2 align-items-end">
+
+            {{-- Search --}}
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-muted">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control bg-dark border-secondary text-white"
+                        placeholder="Search by name, category..."
+                        value="{{ request('search') }}"
+                    >
+                </div>
+            </div>
+
+            {{-- Filter: Status --}}
+            <div class="col-md-2">
+                <select name="status" class="form-select bg-dark border-secondary text-white">
+                    <option value="">All Status</option>
+                    <option value="in_stock"   {{ request('status') === 'in_stock'   ? 'selected' : '' }}>In Stock</option>
+                    <option value="low_stock"  {{ request('status') === 'low_stock'  ? 'selected' : '' }}>Low Stock</option>
+                    <option value="out_stock"  {{ request('status') === 'out_stock'  ? 'selected' : '' }}>Out of Stock</option>
+                </select>
+            </div>
+
+            {{-- Filter: Category --}}
+            <div class="col-md-2">
+                <select name="category" class="form-select bg-dark border-secondary text-white">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category }}" {{ request('category') === $category ? 'selected' : '' }}>
+                            {{ $category }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Buttons --}}
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-filter me-1"></i> Filter
+                </button>
+                <a href="{{ route('inventory.index') }}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+
+        </div>
+        {{-- Active filter badges --}}
+        @if(request('search') || request('status') || request('date_from') || request('date_to'))
+        <div class="mt-2 d-flex gap-2 flex-wrap">
+            <small class="text-muted align-self-center">Active filters:</small>
+            @if(request('search'))
+                <span class="badge bg-primary">Search: "{{ request('search') }}"</span>
+            @endif
+            @if(request('status'))
+                <span class="badge bg-secondary">Status: {{ ucfirst(str_replace('_', ' ', request('status'))) }}</span>
+            @endif
+            @if(request('category'))
+                <span class="badge bg-secondary">Category: {{ request('category') }}</span>
+            @endif
+        </div>
+        @endif
+    </form>
+    {{-- ================================================================ --}}
+
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">

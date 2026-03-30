@@ -33,7 +33,7 @@ class Inventory extends Model
         $expiry = Carbon::parse($this->expiration_date);
 
         if ($expiry->isPast()) return 'expired';
-        if ($expiry->diffInDays($today) <= 7) return 'warning';
+        if ($expiry->isBefore(now()->addMonths(5))) return 'warning';
 
         return 'safe';
     }

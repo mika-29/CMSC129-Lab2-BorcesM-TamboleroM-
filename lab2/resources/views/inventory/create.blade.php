@@ -89,7 +89,7 @@
                             <i class="fas fa-arrow-left"></i> Cancel
                         </a>
 
-                        <button type="submit" class="btn btn-blue">
+                        <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Save Supply
                         </button>
                     </div>
